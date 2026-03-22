@@ -1,50 +1,26 @@
 # Stellar Companion
 
-A **niche-topic chatbot** for amateur astronomy and night-sky observing—built as a small “observatory deck” experience instead of a generic chat UI. This project was created for the Thinkly Labs frontend take-home: emphasis on presentation, loading/error/empty states, and responsive layout.
+A small chat app for people who like looking up at night. It is meant to feel like stepping onto an observatory deck—dark sky, a bit of atmosphere—rather than another blank chat window. You can ask about constellations, the Moon, planets, binoculars or telescopes, and light pollution; the assistant stays in that lane.
 
-## Why this topic
+## Why build this around the sky
 
-Stargazing is inherently visual and atmospheric, which gave room to design a **purpose-built** interface (night-sky palette, observatory framing, starfield backdrop) while keeping the assistant focused on constellations, Moon phases, planets, and practical gear advice. The topic is narrow enough that off-topic questions can be gently redirected—matching how a real guide would behave.
+Night sky stuff has a strong visual identity, so the UI could go beyond a default template: colors, framing, empty and loading states that match the theme. The answers are scoped on purpose so the bot feels like a guide, not a general-purpose assistant.
 
-## Stack
+## What it runs on
 
-- [Next.js](https://nextjs.org/) (App Router) + TypeScript
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Vercel AI SDK](https://sdk.vercel.ai/) (`streamText`, `useChat`)
-  - **OpenAI:** `OPENAI_API_KEY` starting with `sk-` → `gpt-4o-mini`
-  - **Google Gemini:** `GOOGLE_GENERATIVE_AI_API_KEY` (or an `AIza…` key in `OPENAI_API_KEY`) → `gemini-flash-latest`
-- **Demo mode:** if no usable key is set, the API streams keyword-based astronomy answers so the UI stays testable
+Next.js, TypeScript, Tailwind. Chat streaming goes through the Vercel AI SDK. You can plug in OpenAI (`OPENAI_API_KEY` with an `sk-` key) or Gemini via `GOOGLE_GENERATIVE_AI_API_KEY` from Google AI Studio. If neither is set, there is a simple offline-style fallback so you can still click around and test the interface.
 
-## Local development
+## Run it locally
 
 ```bash
 npm install
 cp .env.example .env.local
-# Add OPENAI_API_KEY (sk-…) and/or GOOGLE_GENERATIVE_AI_API_KEY (AIza… from Google AI Studio)
+```
+
+Put your keys in `.env.local`, then:
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-## Deploy on Vercel
-
-1. Push this repo to GitHub.
-2. In [Vercel](https://vercel.com/), import the repository.
-3. Add **Environment variables** `OPENAI_API_KEY` and/or `GOOGLE_GENERATIVE_AI_API_KEY` (same as local).
-4. Deploy. The build command is `npm run build` by default.
-
-## GitHub
-
-Initialize is already done by `create-next-app`. To push to a new repository:
-
-```bash
-git remote add origin https://github.com/<your-username>/stellar-companion.git
-git branch -M main
-git push -u origin main
-```
-
-Replace the URL with your repo.
-
-## License
-
-Private / assessment use—adjust as needed.
+Open `http://localhost:3000`. For a live deploy, hook the repo to Vercel and add the same env vars there.
