@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stellar Companion
 
-## Getting Started
+A **niche-topic chatbot** for amateur astronomy and night-sky observing—built as a small “observatory deck” experience instead of a generic chat UI. This project was created for the Thinkly Labs frontend take-home: emphasis on presentation, loading/error/empty states, and responsive layout.
 
-First, run the development server:
+## Why this topic
+
+Stargazing is inherently visual and atmospheric, which gave room to design a **purpose-built** interface (night-sky palette, observatory framing, starfield backdrop) while keeping the assistant focused on constellations, Moon phases, planets, and practical gear advice. The topic is narrow enough that off-topic questions can be gently redirected—matching how a real guide would behave.
+
+## Stack
+
+- [Next.js](https://nextjs.org/) (App Router) + TypeScript
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vercel AI SDK](https://sdk.vercel.ai/) (`streamText`, `useChat`) with OpenAI `gpt-4o-mini` when `OPENAI_API_KEY` is set
+- **Demo mode:** if the key is missing (e.g. local dev), the API returns streamed keyword-based astronomy answers so the UI stays fully testable
+
+## Local development
 
 ```bash
+npm install
+cp .env.example .env.local
+# Add OPENAI_API_KEY to .env.local for live model responses (optional)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub.
+2. In [Vercel](https://vercel.com/), import the repository.
+3. Add **Environment variable** `OPENAI_API_KEY` (Production / Preview as needed).
+4. Deploy. The build command is `npm run build` by default.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## GitHub
+
+Initialize is already done by `create-next-app`. To push to a new repository:
+
+```bash
+git remote add origin https://github.com/<your-username>/stellar-companion.git
+git branch -M main
+git push -u origin main
+```
+
+Replace the URL with your repo.
+
+## License
+
+Private / assessment use—adjust as needed.
