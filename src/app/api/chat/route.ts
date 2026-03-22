@@ -4,18 +4,40 @@ import {
   createUIMessageStreamResponse,
   generateId,
   streamText,
+  type LanguageModel,
 } from "ai";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { openai } from "@ai-sdk/openai";
 import { STELLAR_SYSTEM_PROMPT } from "@/lib/stellar-prompt";
 import { buildMockStellarReply } from "@/lib/mock-stellar-reply";
 
 export const maxDuration = 60;
 
+function resolveLanguageModel(): LanguageModel | null {
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const googleKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+  if (openaiKey?.startsWith("sk-")) {
+    return openai("gpt-4o-mini");
+  }
+
+  const geminiKey =
+    googleKey ?? (openaiKey?.startsWith("AIza") ? openaiKey : undefined);
+  if (geminiKey) {
+    const genAI = createGoogleGenerativeAI({ apiKey: geminiKey });
+    return genAI("gemini-flash-latest");
+  }
+
+  return null;
+}
+
 export async function POST(req: Request) {
   const body = await req.json();
   const messages = body.messages;
 
-  if (!process.env.OPENAI_API_KEY) {
+  const model = resolveLanguageModel();
+
+  if (!model) {
     const lastUser = [...messages]
       .reverse()
       .find((m: { role: string }) => m.role === "user");
@@ -42,7 +64,7 @@ export async function POST(req: Request) {
   const modelMessages = await convertToModelMessages(messages);
 
   const result = streamText({
-    model: openai("gpt-4o-mini"),
+    model,
     system: STELLAR_SYSTEM_PROMPT,
     messages: modelMessages,
   });
